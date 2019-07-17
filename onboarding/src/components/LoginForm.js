@@ -55,7 +55,10 @@ const FormikLoginForm = withFormik({
 
     handleSubmit: values => {
         console.log(values);
-        
+        const url = 'https://reqres.in/api/users';
+        axios
+            .post(url, values)
+            .then(res => console.log(res.data))
     }
 
 })(LoginForm);
