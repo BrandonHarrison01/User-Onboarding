@@ -1,5 +1,6 @@
 import React from 'react';
 import { withFormik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 function LoginForm() {
     return(
@@ -18,7 +19,7 @@ function LoginForm() {
                 autoComplete='off'
             />
             {/* <Field type='checkbox' name='terms' /> */}
-            <button>Submit!</button>
+            <button type='submit' >Submit!</button>
         </Form>
     )
 }
@@ -32,7 +33,9 @@ const FormikLoginForm = withFormik({
             email: email || '',
         };
     },
-
+    handleSubmit: values => {
+        console.log(values);
+    }
 
 })(LoginForm);
 
