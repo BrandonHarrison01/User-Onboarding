@@ -26,7 +26,11 @@ function LoginForm({errors, touched}) {
                 autoComplete='off'
             />
             <p>{touched.password && errors.password}</p>
-            {/* <Field type='checkbox' name='terms' /> */}
+            <label>
+                I accept the terms            
+                <Field type='checkbox' name='terms' />
+            </label>
+            <br />
             <button type='submit' >Submit!</button>
         </Form>
     )
@@ -34,11 +38,12 @@ function LoginForm({errors, touched}) {
 
 const FormikLoginForm = withFormik({
 
-    mapPropsToValues({ name, password, email }) {
+    mapPropsToValues({ name, password, email, terms }) {
         return {
             name: name || '',
             password: password || '',
             email: email || '',
+            terms: terms || '',
         };
     },
 
@@ -51,14 +56,19 @@ const FormikLoginForm = withFormik({
         password: Yup.string()
             .min(6, 'Password must be at least 6 characters')
             .required('Password is required'),
+        terms: Yup.string()
+            .required(),
     }),
 
-    handleSubmit: values => {
-        console.log(values);
+    handleSubmit: (values, formikBag) => {
+        formikBag.resetForm();
         const url = 'https://reqres.in/api/users';
         axios
             .post(url, values)
-            .then(res => console.log(res.data))
+            .then(res => {
+                console.log(res.data)
+                window.alert(`Name: ${res.data.name} Email: ${res.data.email}`);
+            })
     }
 
 })(LoginForm);
